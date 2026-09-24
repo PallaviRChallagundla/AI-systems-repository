@@ -1,0 +1,466 @@
+{
+  "name": "RAG pipleine",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "kg_store",
+          "mode": "list"
+        },
+        "clearStore": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        304
+      ],
+      "id": "7ee3acc7-5f9a-47b5-a9fb-22267897081b",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        560
+      ],
+      "id": "b778a207-f2e7-430d-915f-9ad134bf6a5a",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "w6tNXQZCw7sEexfE",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        560
+      ],
+      "id": "1756df89-1610-47fa-8bfe-27370ba4c340",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        208,
+        736
+      ],
+      "id": "55e1f6f7-de0b-418a-b2bf-65d057d4deb8",
+      "name": "Token Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        304
+      ],
+      "id": "0cd0baee-6e75-4f68-8f6f-c7c662868173",
+      "name": "When chat message received",
+      "webhookId": "5f998f64-d822-41a1-ac68-edc82c712770"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool for retrieving the most relevant document chunks based on semantic similarity.",
+        "memoryKey": {
+          "__rl": true,
+          "value": "kg_store",
+          "mode": "list",
+          "cachedResultName": "kg_store"
+        },
+        "topK": 5
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        544
+      ],
+      "id": "0633aee5-616a-4de4-9af4-51a3abb385f6",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        960,
+        304
+      ],
+      "id": "c13de189-c5d3-4073-9ce0-98a27395417b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        528
+      ],
+      "id": "1417fb18-93e8-4385-89a8-b247b988c5f6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "w6tNXQZCw7sEexfE",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        992,
+        528
+      ],
+      "id": "01249924-8391-4d18-b5e2-700430e6d2dd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        704
+      ],
+      "id": "d8faa231-9390-4a59-b729-6eec8f5a2c1b",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "w6tNXQZCw7sEexfE",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## **Step 1: Document Segmentation & Vectorization**",
+        "height": 96,
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "d2aeaf92-73c0-4ea1-bdcc-7a0f10142a4a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### **n8n Form Component (File Upload)**\n\nUse this component to upload your contract or PDF file that you want to process in the RAG pipeline.\n",
+        "width": 272,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -320,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "06410b65-370f-4cb4-950e-aa44cf60df3d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Upload Your Contract",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload Your File Here",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        304
+      ],
+      "id": "0d252110-e36f-48c8-b825-305c2516bda7",
+      "name": "On form submission",
+      "webhookId": "67f5ea4c-c2e9-47ad-b8d8-af0c59609b82"
+    },
+    {
+      "parameters": {
+        "content": "### **Vector Store**\n\nA vector store is used to save document embeddings and retrieve the most relevant chunks based on semantic similarity.\n",
+        "height": 144,
+        "width": 304,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        176,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "f39535e1-d579-42d6-a9ac-46715977aa36",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "### **Embeddings (OpenAI Model)**\n\nWe use the OpenAI embedding model to convert each text chunk into a numerical vector.  \nThese embeddings capture semantic meaning and are stored in the vector store for similarity-based retrieval.\n",
+        "height": 176,
+        "width": 288,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -320,
+        512
+      ],
+      "typeVersion": 1,
+      "id": "34cfb71f-85b5-4b8b-af23-3051074dbc5c",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "### **Default Data Loader**\n\nThe Default Data Loader is used to read and load the uploaded document into the system.  \nIt extracts the raw text from the file so it can be segmented, embedded, and stored in the vector store.\n",
+        "height": 192,
+        "width": 288,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        656
+      ],
+      "typeVersion": 1,
+      "id": "4826ed61-45db-4a11-88d8-420dacd1dd21",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "### **Token Splitter**\n\nThe Token Splitter breaks the document text into smaller chunks based on token count.  \nThis ensures each chunk stays within model limits and can be embedded efficiently for retrieval.\n",
+        "width": 352,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        864
+      ],
+      "typeVersion": 1,
+      "id": "678db525-00c4-460c-bfa4-488d06f03ad9",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "### **Chat Message Trigger**\n\nThis component captures the user’s query from the chat interface and sends it into the workflow for processing and retrieval.\n",
+        "width": 288,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "02562e43-d405-4e0f-b62e-69f9c94129bf",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "### **Why We Use an AI Agent Here** ?\n\nWe use an AI agent to coordinate the entire RAG workflow.  \nThe agent decides **when** to call the vector store and **how** to use the retrieved chunks to answer the user’s query.\n\nYour simple vector store is acting as a **tool** for the agent the agent sends the user query to the vector store, retrieves the relevant chunks, and then uses them to generate the final answer.\n",
+        "height": 288,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "dcdd1230-67af-4d41-b0c1-a77ae3dc57b2",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "### **Simple Vector Store Tool**\n\nThis tool stores embeddings and retrieves the most relevant chunks based on semantic similarity.\n",
+        "width": 336,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1376,
+        512
+      ],
+      "typeVersion": 1,
+      "id": "231e10f1-af11-4f3f-b3b4-3b6cd46f1f6c",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## **Step 2: Retrieval Part**",
+        "height": 96,
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "1e407044-1eaf-43fd-aff3-ba915dc3e6f7",
+      "name": "Sticky Note6"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ead4a991-4104-4dfa-8929-3361334a5438",
+  "meta": {
+    "instanceId": "ad91f8c703124b341edcbc999f9160a7506c5dd159aaf2a60d14ee2a379881a8"
+  },
+  "nodeGroups": [],
+  "id": "xKAEWNz1BeR4u6V1",
+  "tags": []
+}
